@@ -10,4 +10,4 @@ Resources:
       EnableDnsHostnames: true
       Tags:
       - Key: Name
-        Value: !Join ['', [!Ref "AWS::Stackname", "-VPC"]]
+        Value: !Join ['', [!Ref "AWS::StackName", "-VPC"]]
