@@ -32,12 +32,12 @@ Resources:
       - Key: Name
         Value: !Sub ${"AWS::StackName"}-Public-A
 
-   PublicSubnetB:
+  PublicSubnetB:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.1.20.0/24
       VpcId: !Ref VPC #subnet to exist within the vpc
-      AvailabilityZone: !Select  [0, !GetAZs ]
+      AvailabilityZone: !Select  [1, !GetAZs ]
       Tags:
       - Key: Name
         Value: !Sub ${"AWS::StackName"}-Public-B
@@ -52,12 +52,12 @@ Resources:
       - Key: Name
         Value: !Sub ${"AWS::StackName"}-Private-A
 
-  PrivateSubnetA:
+  PrivateSubnetB:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.1.40.0/24
       VpcId: !Ref VPC #subnet to exist within the vpc
-      AvailabilityZone: !Select  [0, !GetAZs ]
+      AvailabilityZone: !Select  [1, !GetAZs ]
       Tags:
       - Key: Name
         Value: !Sub ${"AWS::StackName"}-Private-B
