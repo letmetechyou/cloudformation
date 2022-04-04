@@ -61,3 +61,17 @@ Resources:
       Tags:
       - Key: Name
         Value: !Sub ${"AWS::StackName"}-Private-B
+  
+  ##route tables for needed subnets
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: Private
+  PrivateRoute1: #private route table to access the web via NAT
+    Type: AWS::EC2::Route
+      RouteTableID: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayID: ???
