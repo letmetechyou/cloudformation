@@ -63,7 +63,7 @@ Resources:
         Value: !Sub ${"AWS::StackName"}-Private-B
   
   ##route tables for needed subnets
-  PrivateRouteTable:
+  PrivateRouteTableA:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref VPC
@@ -72,6 +72,49 @@ Resources:
         Value: Private
   PrivateRoute1: #private route table to access the web via NAT
     Type: AWS::EC2::Route
-      RouteTableID: !Ref PrivateRouteTable
+      RouteTableID: !Ref PrivateRouteTableA
       DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayID: ???
+      NatGatewayID: !Ref MyNatGatewaySubnetA
+
+##route tables for needed subnets
+  PrivateRouteTableB:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: Private
+  PrivateRoute1: #private route table to access the web via NAT
+    Type: AWS::EC2::Route
+      RouteTableID: !Ref PrivateRouteTableB
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayID: !Ref MyNatGatewaySubnetB
+
+  #nat gateway creation PublicSubnetA
+  MyNatGatewaySubnetA:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationID: !GetAtt ElasticIPAddress.AllocationID
+      SubnetID: !Ref PublicSubnetA
+      Tags:
+      - Key: Name
+        Value: !Sub NATA-${"AWS::StackName"}
+  ElasticIPAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: VPC
+
+  #nat gateway creation PublicSubnetB
+  MyNatGatewaySubnetB:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationID: !GetAtt ElasticIPAddress.AllocationID
+      SubnetID: !Ref PublicSubnetB
+      Tags:
+      - Key: Name
+        Value: !Sub NATB-${"AWS::StackName"}
+  ElasticIPAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: VPC
+
