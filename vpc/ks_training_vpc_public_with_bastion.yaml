@@ -12,7 +12,7 @@ Parameters:
   KeyName:
     Type: AWS::EC2::KeyPair::KeyName
     Description: "Name of an existing SSH Keypair to access the instance"
-    Default: "kstraining"
+    Default: "ks-training-aws-keypair"
 Resources:
   VPC:
     Type: AWS::EC2::VPC
